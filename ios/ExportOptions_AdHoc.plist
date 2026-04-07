@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 导出方法：ad-hoc 用于测试分发 -->
+    <key>method</key>
+    <string>ad-hoc</string>
+    
+    <!-- 团队 ID -->
+    <key>teamID</key>
+    <string>YOUR_TEAM_ID</string>
+    
+    <!-- 上传符号文件到 Apple -->
+    <key>uploadSymbols</key>
+    <true/>
+    
+    <!-- 不上传比特码到 App Store Connect (Ad Hoc 不需要) -->
+    <key>uploadBitcode</key>
+    <false/>
+    
+    <!-- 应用分组 -->
+    <key>applicationGroups</key>
+    <array/>
+    
+    <!-- 分发证书 -->
+    <key>signingCertificate</key>
+    <string>iPhone Distribution</string>
+    
+    <!-- 配置文件 UUID (Ad Hoc) -->
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>com.kelivo.app</key>
+        <string>YOUR_ADHOC_PROVISIONING_PROFILE_NAME</string>
+    </dict>
+    
+    <!-- 打包 Bundle ID -->
+    <key>bundleIdentifier</key>
+    <string>com.kelivo.app</string>
+    
+    <!-- 薄化设置 -->
+    <key>thin</key>
+    <string><none></string>
+    
+    <!-- 目标设备系列 -->
+    <key>destination</key>
+    <string>export</string>
+    
+    <!-- 测试设备列表（可选，留空则使用配置文件中的所有设备） -->
+    <key>testFlightInternalTestingOnly</key>
+    <false/>
+</dict>
+</plist>

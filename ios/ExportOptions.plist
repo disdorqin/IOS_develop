@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 导出方法：app-store, ad-hoc, enterprise, development, validation -->
+    <key>method</key>
+    <string>app-store</string>
+    
+    <!-- 团队 ID -->
+    <key>teamID</key>
+    <string>YOUR_TEAM_ID</string>
+    
+    <!-- 上传符号文件到 Apple -->
+    <key>uploadSymbols</key>
+    <true/>
+    
+    <!-- 上传比特码到 App Store Connect -->
+    <key>uploadBitcode</key>
+    <false/>
+    
+    <!-- 编译时包含符号文件 -->
+    <key>generateAppStoreInformation</key>
+    <true/>
+    
+    <!-- 应用分组 -->
+    <key>applicationGroups</key>
+    <array/>
+    
+    <!-- 分发证书 -->
+    <key>signingCertificate</key>
+    <string>iPhone Distribution</string>
+    
+    <!-- 配置文件 UUID -->
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>com.kelivo.app</key>
+        <string>YOUR_PROVISIONING_PROFILE_NAME</string>
+    </dict>
+    
+    <!-- 打包 Bundle ID -->
+    <key>bundleIdentifier</key>
+    <string>com.kelivo.app</string>
+    
+    <!-- 版本号 -->
+    <key>version</key>
+    <string>1.1.10</string>
+    
+    <!-- 构建号 -->
+    <key>buildNumber</key>
+    <string>1</string>
+    
+    <!-- 薄化设置：<none>, <v2>, <v3> -->
+    <key>thin</key>
+    <string><none></string>
+    
+    <!-- 目标设备系列 -->
+    <key>destination</key>
+    <string>export</string>
+    
+    <!-- 管理版本 -->
+    <key>manageAppVersionAndBuildNumber</key>
+    <false/>
+</dict>
+</plist>

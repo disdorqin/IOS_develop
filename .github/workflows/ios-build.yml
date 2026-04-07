@@ -1,0 +1,73 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ios:
+    name: Build iOS IPA
+    runs-on: macos-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 设置 Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0'
+          channel: 'stable'
+          cache: true
+      
+      - name: Flutter 版本信息
+        run: flutter doctor -v
+      
+      - name: 获取 Flutter 依赖
+        run: flutter pub get
+      
+      - name: 安装 CocoaPods 依赖
+        working-directory: ios
+        run: pod install
+      
+      - name: 构建 iOS (无签名)
+        run: flutter build ios --release --no-codesign
+      
+      - name: 构建 IPA (需要证书和配置文件)
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        run: |
+          # 需要配置证书和 ExportOptions.plist
+          # 这里仅作为示例
+          echo "需要配置 Apple 证书和配置文件才能构建 IPA"
+          echo "建议使用 Codemagic 或其他专业 iOS CI/CD 服务"
+      
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build-output
+          path: |
+            build/ios/
+            ios/Runner.xcworkspace
+          retention-days: 7
+
+  # TestFlight 发布（需要 macOS 运行器和证书配置）
+  # deploy-testflight:
+  #   name: Deploy to TestFlight
+  #   runs-on: macos-latest
+  #   needs: build-ios
+  #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: 配置证书
+  #       run: |
+  #         # 需要配置 Apple 证书
+  #         echo "配置证书..."
+  #     - name: 构建并上传到 TestFlight
+  #       run: |
+  #         flutter build ipa --export-options-plist=ios/ExportOptions.plist
+  #         xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa \
+  #           --apiKey ${{ secrets.APP_STORE_CONNECT_API_KEY }} \
+  #           --apiIssuer ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
