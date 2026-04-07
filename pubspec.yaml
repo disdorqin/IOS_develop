@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.1.10+28
 
 environment:
-  sdk: ^3.8.1
+  sdk: ^3.7.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -60,9 +60,9 @@ dependencies:
   hive_flutter: ^1.1.0
   url_launcher: ^6.3.2
   package_info_plus: ^8.3.1
-  gpt_markdown: ^1.1.4
+  gpt_markdown: ^1.1.2
   uuid: ^4.5.0
-  intl: ^0.20.2
+  intl: ^0.19.0
   path: ^1.9.1
   path_provider: ^2.1.4
   file_picker: ^10.3.10
@@ -77,9 +77,9 @@ dependencies:
     path: ./dependencies/mcp_client
   flutter_highlight: ^0.7.0
   highlight: ^0.7.0
-  syncfusion_flutter_core: ^31.2.5
-  syncfusion_flutter_sliders: ^31.2.5
-  syncfusion_flutter_pdf: ^31.2.5
+  syncfusion_flutter_core: ^27.1.58
+  syncfusion_flutter_sliders: ^27.1.58
+  syncfusion_flutter_pdf: ^27.1.58
   audioplayers: ^6.5.1
   html: ^0.15.6
   html2md: ^1.2.10
