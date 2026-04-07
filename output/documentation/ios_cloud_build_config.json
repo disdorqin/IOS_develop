@@ -1,0 +1,83 @@
+{
+  "project_name": "Kelivo",
+  "bundle_identifier": "com.kelivo.app",
+  "team_id": "YOUR_TEAM_ID",
+  "apple_id": "disdorqin@gmail.com",
+  "app_store_connect": {
+    "issuer_id": "YOUR_ISSUER_ID",
+    "key_id": "YOUR_KEY_ID",
+    "private_key_path": "./AuthKey_YOUR_KEY_ID.p8"
+  },
+  "ios": {
+    "scheme": "Runner",
+    "configuration": "Release",
+    "device": "iphoneos",
+    "provisioning_profile": "YOUR_PROVISIONING_PROFILE_UUID",
+    "code_signing_identity": "iPhone Distribution",
+    "export_method": "app-store",
+    "build_number": "1",
+    "version": "1.1.10"
+  },
+  "certificates": {
+    "distribution": {
+      "name": "iPhone Distribution",
+      "type": "ios_distribution"
+    },
+    "development": {
+      "name": "iPhone Development",
+      "type": "ios_development"
+    }
+  },
+  "profiles": {
+    "distribution": {
+      "name": "Kelivo App Store Profile",
+      "type": "app_store",
+      "bundle_id": "com.kelivo.app"
+    },
+    "development": {
+      "name": "Kelivo Development Profile",
+      "type": "development",
+      "bundle_id": "com.kelivo.app"
+    }
+  },
+  "cloud_build": {
+    "platform": "codemagic",
+    "workflow": {
+      "name": "ios-workflow",
+      "environment": {
+        "flutter": "3.29.0",
+        "ios": "17.0",
+        "xcode": "15.x"
+      },
+      "scripts": [
+        "flutter pub get",
+        "flutter build ios --release --no-codesign"
+      ],
+      "artifacts": [
+        "build/ios/archive/Runner.xcarchive"
+      ]
+    }
+  },
+  "notifications": {
+    "email": "disdorqin@gmail.com",
+    "slack": null,
+    "discord": null
+  },
+  "notes": [
+    "此配置文件用于 iOS 云构建配置",
+    "需要替换的占位符：",
+    "  - YOUR_TEAM_ID: Apple 开发者团队 ID",
+    "  - YOUR_ISSUER_ID: App Store Connect API Issuer ID",
+    "  - YOUR_KEY_ID: App Store Connect API Key ID",
+    "  - YOUR_PROVISIONING_PROFILE_UUID: 配置文件 UUID",
+    "  - AuthKey_*.p8: 需要下载并放置在项目根目录",
+    "",
+    "云构建平台推荐：",
+    "  - Codemagic (https://codemagic.io)",
+    "  - Bitrise (https://bitrise.io)",
+    "  - GitHub Actions (需要 macOS 运行器)",
+    "",
+    "构建命令参考：",
+    "  flutter build ipa --export-options-plist=ios/ExportOptions.plist"
+  ]
+}

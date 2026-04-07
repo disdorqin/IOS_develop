@@ -125,6 +125,11 @@ dependency_overrides:
   # Prevent the location from being accessed continuously on Windows
   permission_handler_windows:
     path: ./dependencies/flutter-permission-handler/permission_handler_windows
+  
+  # Fix intl version conflict for Codemagic CI/CD
+  # flutter_localizations requires intl 0.20.2, but we depend on ^0.19.0
+  # This override allows both to work by using the newer version
+  intl: 0.20.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

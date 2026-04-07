@@ -1,0 +1,117 @@
+# Codemagic CI/CD 配置文件 - 修复 intl 版本冲突
+# 文档：https://docs.codemagic.io/configuration/
+
+workflows:
+  # 主构建流程 - 用于发布到 App Store
+  ios-workflow:
+    name: Kelivo iOS Build
+    max_build_duration: 60
+    environment:
+      flutter: 3.29.0
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        automatic: true
+      vars:
+        BUNDLE_ID: "com.kelivo.app"
+        XCODE_WORKSPACE: "Runner"
+        XCODE_SCHEME: "Runner"
+    
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: 'v*'
+          include: true
+    
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - $HOME/.gradle
+        - Pods
+    
+    scripts:
+      - name: 清理并获取 Flutter 依赖
+        script: |
+          # 清理之前的构建缓存
+          flutter clean
+          
+          # 获取依赖（使用 dependency_overrides 解决 intl 冲突）
+          flutter pub get
+      
+      - name: 安装 CocoaPods 依赖
+        script: |
+          cd ios
+          pod install
+          cd ..
+      
+      - name: 构建 iOS
+        script: |
+          flutter build ios --release
+    
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/Runner.xcarchive
+      - /tmp/xcodebuild_logs/*.log
+    
+    publishing:
+      email:
+        recipients:
+          - disdorqin@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  # Beta 测试构建流程
+  ios-beta-workflow:
+    name: Kelivo iOS Beta
+    max_build_duration: 60
+    environment:
+      flutter: 3.29.0
+      xcode: latest
+      ios_signing:
+        automatic: true
+      vars:
+        BUNDLE_ID: "com.kelivo.app"
+    
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: true
+    
+    scripts:
+      - name: 获取 Flutter 依赖
+        script: |
+          flutter clean
+          flutter pub get
+      
+      - name: 安装 CocoaPods 依赖
+        script: |
+          cd ios && pod install && cd ..
+      
+      - name: 构建 iOS Beta
+        script: flutter build ios --release
+    
+    artifacts:
+      - build/ios/ipa/*.ipa
+    
+    publishing:
+      email:
+        recipients:
+          - disdorqin@gmail.com
+        notify:
+          success: true
+          failure: true
+
+# 注意事项：
+# 1. pubspec.yaml 中已添加 dependency_overrides 解决 intl 版本冲突
+# 2. 使用自动签名，Codemagic 会自动创建证书和配置文件
+# 3. 需要在 Codemagic 界面连接 Apple Developer 账户
